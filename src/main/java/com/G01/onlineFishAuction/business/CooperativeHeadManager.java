@@ -1,5 +1,6 @@
 package com.G01.onlineFishAuction.business;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.G01.onlineFishAuction.dataAccess.ICodeRepository;
@@ -32,5 +33,6 @@ public class CooperativeHeadManager implements ICooperativeHeadService {
 		return iCodeRepository.generateAndRecord();
 
 	}
+
 
 }

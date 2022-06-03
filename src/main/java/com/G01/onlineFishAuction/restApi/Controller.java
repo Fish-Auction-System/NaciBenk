@@ -1,8 +1,9 @@
 package com.G01.onlineFishAuction.restApi;
 
 import com.G01.onlineFishAuction.DTO.CooperativeMemberDTO;
-import com.G01.onlineFishAuction.entities.LoginResponseJson;
+import com.G01.onlineFishAuction.entities.*;
 import com.G01.onlineFishAuction.exceptions.CodeNotFoundException;
+import com.G01.onlineFishAuction.exceptions.FishermanAuctionNotExists;
 import com.G01.onlineFishAuction.exceptions.UsernameAlreadyInUse;
 import com.G01.onlineFishAuction.exceptions.UsernameNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,6 @@ import com.G01.onlineFishAuction.business.*;
 
 import java.sql.SQLException;
 import java.util.List;
-
-import com.G01.onlineFishAuction.entities.CooperativeHead;
-import com.G01.onlineFishAuction.entities.CooperativeMember;
-import com.G01.onlineFishAuction.entities.Customer;
-import com.G01.onlineFishAuction.entities.Fisherman;
 
 @CrossOrigin("*")
 @RestController
@@ -178,6 +174,17 @@ public class Controller {
         catch (Exception err) {
             return new ResponseEntity<>("Not unique data! mail or sth in SYSTEM!", HttpStatus.BAD_REQUEST);
         }
+    }
+    @PostMapping("/add-fish")
+    public ResponseEntity<String> addFishToAuction(@RequestBody Fish addingFishJson){
+        try {
+            cooperativeMemberService.addFish(addingFishJson);
+            return new ResponseEntity<>("Added successfully",HttpStatus.OK);
+        }catch (FishermanAuctionNotExists e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Wrong fields !!",HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 }

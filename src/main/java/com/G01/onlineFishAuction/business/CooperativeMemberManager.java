@@ -1,6 +1,7 @@
 package com.G01.onlineFishAuction.business;
 
-import com.G01.onlineFishAuction.entities.CooperativeMember;
+import com.G01.onlineFishAuction.entities.Fish;
+import com.G01.onlineFishAuction.exceptions.FishermanAuctionNotExists;
 import com.G01.onlineFishAuction.exceptions.UsernameAlreadyInUse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,14 @@ import com.G01.onlineFishAuction.entities.Fisherman;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 @Service
 public class CooperativeMemberManager implements ICooperativeMemberService{
 	private IFishRepository fishRepository;
 	//ISaleRepository saleRepository;
 	private IFishermanRepository fishermanRepository;
+	private AuctionManager auctionRepository;
 	@Autowired
 	public CooperativeMemberManager(IFishRepository fishRepository, IFishermanRepository fishermanRepository) {
 		super();
@@ -29,9 +32,23 @@ public class CooperativeMemberManager implements ICooperativeMemberService{
 	}
 
 	@Override
+	public void addFish(Fish fish) throws FishermanAuctionNotExists {
+		String fishermanId = fish.getFishermanId();
+		String auctionId = fish.getAuctionId();
+		ArrayList<String> newList = getFishermanIds();
+		if (newList.contains(fishermanId)){
+			if (auctionRepository.isAuctionExists(auctionId)){
+				fishRepository.recordFish(fish);
+			}
+			throw new FishermanAuctionNotExists("Fisherman does not exists!");
+		}
+		throw new FishermanAuctionNotExists("Fisherman does not exists!");
+
+	}
+
+	@Override
 	public void addFish() {
-		
-		
+
 	}
 
 	@Override
@@ -51,4 +68,13 @@ public class CooperativeMemberManager implements ICooperativeMemberService{
 		}
 	}
 
+	private ArrayList<String> getFishermanIds(){
+		Iterator<Fisherman> newFishermanDb = fishermanRepository.getAll().iterator();
+		ArrayList<String> newArrayList = new ArrayList<>();
+		while (newFishermanDb.hasNext()){
+			newArrayList.add(newFishermanDb.next().getUsername());
+
+		}
+		return newArrayList;
+	}
 }
