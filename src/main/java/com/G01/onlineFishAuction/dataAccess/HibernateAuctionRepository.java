@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Repository
@@ -31,6 +33,17 @@ public class HibernateAuctionRepository implements  IAuctionRepository{
         Session session  = entityManager.unwrap(Session.class);
         List<Auction> auctions = session.createQuery("from Auction", Auction.class).getResultList();
         return auctions;
+    }
+
+    @Override
+    @Transactional
+    public boolean isAuctionExists(String idName){
+        Iterator<Auction> newAuction=getAll().iterator();
+        ArrayList<String> idList=new ArrayList<>();
+        while (newAuction.hasNext()){
+            idList.add(newAuction.next().getId());
+        }
+        return idList.contains(idName);
     }
 
 

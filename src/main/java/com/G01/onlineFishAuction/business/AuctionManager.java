@@ -4,37 +4,38 @@ import com.G01.onlineFishAuction.dataAccess.IAuctionRepository;
 import com.G01.onlineFishAuction.entities.Auction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Service
 public class AuctionManager implements IAuctionService {
 
 
-    private IAuctionRepository iAuctionRepository;
+    private IAuctionRepository auctionRepository;
 
     @Autowired
     public AuctionManager(IAuctionRepository iAuctionRepository) {
-        this.iAuctionRepository = iAuctionRepository;
+        this.auctionRepository = iAuctionRepository;
     }
 
     @Override
+    @Transactional
     public void add(Auction auction) {
-        iAuctionRepository.addAuction(auction);
+        auctionRepository.addAuction(auction);
     }
 
     @Override
+    @Transactional
     public List<Auction> getAll() {
-        return iAuctionRepository.getAll();
+        return auctionRepository.getAll();
     }
+
+    @Override
+    @Transactional
     public boolean isAuctionExists(String idName){
-        Iterator<Auction> newAuction=getAll().iterator();
-        ArrayList<String> idList=new ArrayList<>();
-        while (newAuction.hasNext()){
-            idList.add(newAuction.next().getId());
-        }
-        return idList.contains(idName);
+        return auctionRepository.isAuctionExists(idName);
     }
+
+
 }

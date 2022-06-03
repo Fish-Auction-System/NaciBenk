@@ -22,9 +22,9 @@ public class Fish {
     private float weight;
     @Column(name = "price")
     private float price;
-    @Column(name = "fishermanId", nullable = false)
+    @Column(name = "fishermanid", nullable = false)
     private String fishermanId;
-    @Column(name="auctionId",nullable = false)
+    @Column(name="auctionid",nullable = false)
     private String auctionId;
 
     public String getId() {

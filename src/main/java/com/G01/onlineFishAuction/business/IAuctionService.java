@@ -6,4 +6,5 @@ import java.util.List;
 public interface IAuctionService {
     public void add(Auction auction);
     public List<Auction> getAll();
+    public boolean isAuctionExists(String idName);
 }

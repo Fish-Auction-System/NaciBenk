@@ -175,16 +175,6 @@ public class Controller {
             return new ResponseEntity<>("Not unique data! mail or sth in SYSTEM!", HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping("/add-fish")
-    public ResponseEntity<String> addFishToAuction(@RequestBody Fish addingFishJson){
-        try {
-            cooperativeMemberService.addFish(addingFishJson);
-            return new ResponseEntity<>("Added successfully",HttpStatus.OK);
-        }catch (FishermanAuctionNotExists e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Wrong fields !!",HttpStatus.BAD_REQUEST);
-        }
 
-    }
 
 }
