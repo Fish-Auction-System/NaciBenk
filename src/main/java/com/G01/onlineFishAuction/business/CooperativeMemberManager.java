@@ -1,5 +1,6 @@
 package com.G01.onlineFishAuction.business;
 
+import com.G01.onlineFishAuction.dataAccess.IAuctionRepository;
 import com.G01.onlineFishAuction.entities.Fish;
 import com.G01.onlineFishAuction.exceptions.FishermanAuctionNotExists;
 import com.G01.onlineFishAuction.exceptions.UsernameAlreadyInUse;
@@ -20,12 +21,15 @@ public class CooperativeMemberManager implements ICooperativeMemberService{
 	private IFishRepository fishRepository;
 	//ISaleRepository saleRepository;
 	private IFishermanRepository fishermanRepository;
-	private AuctionManager auctionRepository;
+	private IAuctionRepository auctionRepository;
 	@Autowired
-	public CooperativeMemberManager(IFishRepository fishRepository, IFishermanRepository fishermanRepository) {
+	public CooperativeMemberManager(IFishRepository fishRepository,
+									IFishermanRepository fishermanRepository,
+									IAuctionRepository auctionRepository) {
 		super();
 		this.fishRepository = fishRepository;
 		this.fishermanRepository = fishermanRepository;
+		this.auctionRepository = auctionRepository;
 	}
 	public CooperativeMemberManager() {
 		
@@ -39,8 +43,9 @@ public class CooperativeMemberManager implements ICooperativeMemberService{
 		if (newList.contains(fishermanId)){
 			if (auctionRepository.isAuctionExists(auctionId)){
 				fishRepository.recordFish(fish);
+				return;
 			}
-			throw new FishermanAuctionNotExists("Fisherman does not exists!");
+			throw new FishermanAuctionNotExists("Auction does not exists!");
 		}
 		throw new FishermanAuctionNotExists("Fisherman does not exists!");
 
