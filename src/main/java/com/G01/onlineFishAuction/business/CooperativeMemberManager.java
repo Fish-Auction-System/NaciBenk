@@ -38,7 +38,7 @@ public class CooperativeMemberManager implements ICooperativeMemberService{
 	@Override
 	public void addFish(Fish fish) throws FishermanAuctionNotExists {
 		String fishermanId = fish.getFishermanId();
-		String auctionId = fish.getAuctionId();
+		int auctionId = fish.getAuctionId();
 		ArrayList<String> newList = getFishermanIds();
 		if (newList.contains(fishermanId)){
 			if (auctionRepository.isAuctionExists(auctionId)){

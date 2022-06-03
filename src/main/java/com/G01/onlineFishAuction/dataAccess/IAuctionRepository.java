@@ -7,5 +7,5 @@ import java.util.List;
 public interface IAuctionRepository {
     void addAuction(Auction auction);
     List<Auction> getAll();
-    boolean isAuctionExists(String auctionId);
+    boolean isAuctionExists(int auctionId);
 }

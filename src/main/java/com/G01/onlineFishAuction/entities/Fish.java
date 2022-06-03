@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class Fish {
     @Id
     @Column(name = "id", nullable = false)
-    private String id;
+    private int id;
     @Column(name = "type", nullable = false)
     private String type;
     @Column(name = "status", nullable = false)
@@ -25,13 +25,13 @@ public class Fish {
     @Column(name = "fishermanid", nullable = false)
     private String fishermanId;
     @Column(name="auctionid",nullable = false)
-    private String auctionId;
+    private int auctionId;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 }
