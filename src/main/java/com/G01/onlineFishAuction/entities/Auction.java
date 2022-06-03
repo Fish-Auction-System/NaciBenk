@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class Auction {
     @Id
     @Column(name="id")
-    private String id;
+    private int id;
     @Column(name="name")
     private String name;
     @Column(name="date")
@@ -19,7 +19,7 @@ public class Auction {
     private int quota;
 
 
-    public Auction(String name, float date, String id, int quota) {
+    public Auction(String name, float date, int id, int quota) {
         this.name = name;
         this.date = date;
         this.id = id;
@@ -37,7 +37,7 @@ public class Auction {
         return date;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

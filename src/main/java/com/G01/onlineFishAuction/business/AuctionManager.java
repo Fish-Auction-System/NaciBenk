@@ -33,7 +33,7 @@ public class AuctionManager implements IAuctionService {
 
     @Override
     @Transactional
-    public boolean isAuctionExists(String idName){
+    public boolean isAuctionExists(int idName){
         return auctionRepository.isAuctionExists(idName);
     }
 
