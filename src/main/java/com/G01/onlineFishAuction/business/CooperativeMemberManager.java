@@ -14,7 +14,6 @@ import com.G01.onlineFishAuction.entities.Fisherman;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 @Service
 public class CooperativeMemberManager implements ICooperativeMemberService{

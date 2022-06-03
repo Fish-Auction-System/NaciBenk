@@ -51,12 +51,24 @@ CREATE TABLE code
 );
 CREATE TABLE auction
 (
-    date  FLOAT,
-    name  VARCHAR(255),
-    id    VARCHAR(255),
-    quota INT,
-    PRIMARY KEY (id)
+    date  float        null,
+    name  varchar(255) null,
+    id    int auto_increment primary key,
+    quota int          null
 );
+create table fish
+(
+    id          int auto_increment primary key,
+    type        varchar(255) not null,
+    status      varchar(255) not null,
+    weight      float        not null,
+    price       float        not null,
+    fishermanid varchar(255) not null,
+    auctionid   varchar(255) not null,
+    constraint fish_auctionId_uindex unique (auctionid),
+    constraint fish_id_uindex unique (id)
+);
+
 INSERT INTO `auction` (`date`, `name`, `id`, `quota`)
 VALUES (123123, 'Benekli Ayhan Mezatı', '123123', 12),
        (1212310, 'Ananas', '3', 31),
@@ -72,4 +84,5 @@ INSERT INTO `fisherman` (`mail`, `username`, `password`, `iban`, `owner`) VALUES
 
 INSERT INTO cooperativehead
 VALUES ('admin@gmail.com', 'Admin', 'lorem_ipsum');
+
 
