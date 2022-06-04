@@ -16,6 +16,8 @@ import java.util.List;
 public class AuctionManager implements IAuctionService {
 
 
+
+    private Timer timer;
     private IFishRepository fishRepository;
     private IAuctionRepository auctionRepository;
     private Auction currentAuction;
@@ -79,6 +81,14 @@ public class AuctionManager implements IAuctionService {
                 currentFish = 0;
                 saleInfo=null;
                 currentBid=null;
+                timer = new Timer(this);
+                try{
+                    timer.scheduleFixedRateTaskAsync();
+                    System.out.println("timer has been initiated");
+                }catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                timer.stop();
                 return auction;
             }
         }
@@ -122,6 +132,8 @@ public class AuctionManager implements IAuctionService {
             currentBid.setBid(tokenFish.getPrice());
             currentBid.setFish(tokenFish.getId());
             currentBid.setCustomer("");
+            timer.start();
+            timer.reset();
             return saleInfo;
         }
         else{
@@ -145,6 +157,8 @@ public class AuctionManager implements IAuctionService {
         auctionRepository.finishAuction(currentAuction);
         currentAuction = null;
         customers.clear();
+        timer.stop();
+
 
 
     }
@@ -157,14 +171,25 @@ public class AuctionManager implements IAuctionService {
             if(currentBid.getBid() > amount){
                 return currentBid;
             }else{
+
                 currentBid.setCustomer(customer);
                 currentBid.setBid(amount);
                 saleInfo.setBuyer(customer);
                 saleInfo.setPrice(amount);
+                timer.reset();
                 return currentBid;
             }
         }
     }
+
+
+    @Override
+    public void closeSale(){
+        saleInfo = null;
+        currentBid = null;
+        timer.stop();
+    }
+
 
 
 }

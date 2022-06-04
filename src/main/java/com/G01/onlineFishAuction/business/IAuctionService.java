@@ -17,5 +17,6 @@ public interface IAuctionService {
     public SaleInfo getSaleInfo();
     public void finishAuction();
     public Bid makeBid(float amount, String customer);
+    public void closeSale();
 
 }
