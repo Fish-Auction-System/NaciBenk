@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +48,16 @@ public class HibernateFishRepository implements IFishRepository{
 	public Fish getFish(String id) {
 		Session session  = entityManager.unwrap(Session.class);
 		return session.get(Fish.class, id);
+	}
+
+	@Override
+	@Transactional
+	public List<Fish> getAllFishForAuction(int id) {
+		Session session  = entityManager.unwrap(Session.class);
+		Integer objectId = new Integer(id);
+		String hql = "from Fish where auctionid="+ objectId.toString();
+		List<Fish> fish = session.createQuery(hql,Fish.class).getResultList();
+		return fish;
 	}
 
 

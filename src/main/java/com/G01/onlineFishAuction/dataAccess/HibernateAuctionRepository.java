@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,6 +46,31 @@ public class HibernateAuctionRepository implements  IAuctionRepository{
         }
         return idList.contains(idName);
     }
+
+
+    @Override
+    @Transactional
+    public List<Auction> getLastFive(){
+        Session session  = entityManager.unwrap(Session.class);
+        List<Auction> all = session.createQuery("from Auction",Auction.class).getResultList();
+        Collections.sort(all);
+        List<Auction> toReturn = new ArrayList<>();
+        toReturn.add(all.get(0));
+        toReturn.add(all.get(1));
+        toReturn.add(all.get(2));
+        toReturn.add(all.get(3));
+        toReturn.add(all.get(4));
+        return toReturn;
+    }
+
+    @Override
+    @Transactional
+    public Auction getById(int id){
+        Session session  = entityManager.unwrap(Session.class);
+        return session.find(Auction.class,id);
+    }
+
+
 
 
 }

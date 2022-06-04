@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/cooperativeMember")
@@ -33,6 +35,11 @@ public class CooperativeMemberController {
             return new ResponseEntity<>("Wrong fields !!",HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    @GetMapping("/getfish/{id}")
+    public List<Fish> getAll(@PathVariable int id){
+        return  auctionService.getAllFish(id);
     }
 
 

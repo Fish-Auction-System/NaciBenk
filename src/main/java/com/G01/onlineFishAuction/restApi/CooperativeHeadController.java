@@ -1,6 +1,7 @@
 package com.G01.onlineFishAuction.restApi;
 
 import com.G01.onlineFishAuction.business.ICooperativeHeadService;
+import com.G01.onlineFishAuction.entities.Auction;
 import com.G01.onlineFishAuction.entities.Code;
 import com.G01.onlineFishAuction.exceptions.UsernameAlreadyInUse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,4 +30,6 @@ public class CooperativeHeadController {
         return new Code(coder);
 
     }
+
+
 }
