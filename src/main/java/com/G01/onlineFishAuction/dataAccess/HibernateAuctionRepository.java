@@ -65,12 +65,19 @@ public class HibernateAuctionRepository implements  IAuctionRepository{
 
     @Override
     @Transactional
-    public Auction getById(int id){
+    public Auction getById(int id)
+   {
         Session session  = entityManager.unwrap(Session.class);
         return session.find(Auction.class,id);
     }
 
-
+    @Override
+    @Transactional
+    public void finishAuction(Auction auction) {
+        Session session  = entityManager.unwrap(Session.class);
+        auction.setIs_finished();
+        session.saveOrUpdate(auction);
+    }
 
 
 }

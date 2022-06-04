@@ -5,6 +5,7 @@ import com.G01.onlineFishAuction.dataAccess.IFishRepository;
 import com.G01.onlineFishAuction.entities.Auction;
 import com.G01.onlineFishAuction.entities.Customer;
 import com.G01.onlineFishAuction.entities.Fish;
+import com.G01.onlineFishAuction.entities.SaleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,11 @@ public class AuctionManager implements IAuctionService {
     private IAuctionRepository auctionRepository;
     private Auction currentAuction;
     private List<Fish> fish = new ArrayList<>();
-    private List<Customer> customers = new ArrayList<>();
+    private List<String> customers = new ArrayList<>();
+    private int currentFish;
+    @Autowired
+    private SaleInfo saleInfo = null;
+
 
 
     @Autowired
@@ -72,6 +77,7 @@ public class AuctionManager implements IAuctionService {
             if(auction.getIs_finished()==0){
                 currentAuction = auction;
                 fish= fishRepository.getAllFishForAuction(auction.getId());
+                currentFish = 0;
                 return auction;
             }
         }
@@ -80,11 +86,11 @@ public class AuctionManager implements IAuctionService {
 
     @Override
 
-    public Auction join(Customer customer,int auctionId){
+    public Auction join(String  username,int auctionId){
         if (currentAuction!=null){
             if(currentAuction.getId()==auctionId){
                 if (currentAuction.getQuota() < customers.size()){
-                    customers.add(customer);
+                    customers.add(username);
                     return currentAuction;
                 }
                 return null;
@@ -99,6 +105,39 @@ public class AuctionManager implements IAuctionService {
 
     public Auction getCurrent(){
         return currentAuction;
+    }
+
+    @Override
+    public void nextFish(){
+        Fish tokenFish = null;
+        if(currentFish<fish.size()){
+            tokenFish = fish.remove(currentFish);
+            currentFish++;
+            saleInfo.setFish(tokenFish);
+            saleInfo.setPrice(tokenFish.getPrice());
+            saleInfo.setBuyer(null);
+        }
+        else{
+            finishAuction();
+        }
+    }
+
+
+    @Override
+    public SaleInfo getSaleInfo(){
+        return saleInfo;
+    }
+
+    @Override
+    public void finishAuction(){
+        fish.clear();
+        saleInfo = null;
+        currentFish = 1;
+        auctionRepository.finishAuction(currentAuction);
+        currentAuction = null;
+        customers.clear();
+
+
     }
 
 

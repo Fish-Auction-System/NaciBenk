@@ -10,4 +10,5 @@ public interface IAuctionRepository {
     boolean isAuctionExists(int auctionId);
     List<Auction> getLastFive();
     Auction getById(int id);
+    void finishAuction(Auction auction);
 }

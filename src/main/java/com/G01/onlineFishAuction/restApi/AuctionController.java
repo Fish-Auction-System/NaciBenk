@@ -43,7 +43,7 @@ public class AuctionController {
         iAuctionService.add(auction);
     }
 
-    @PutMapping("start/{auctionID}")
+    @PutMapping("start/{auctionId}")
     public ResponseEntity<Auction> startAuction(@PathVariable int auctionId){
         Auction auction = iAuctionService.start(auctionId);
         if(auction==null){
@@ -52,9 +52,9 @@ public class AuctionController {
         return new ResponseEntity<>(auction, HttpStatus.OK);
     }
 
-    @PutMapping("join/{auctionID}")
-    public ResponseEntity<Auction> joinAuction(@PathVariable int auctionId, @RequestBody Customer customer){
-        Auction auction = iAuctionService.join(customer, auctionId);
+    @PostMapping("join/{auctionId}/{username}")
+    public ResponseEntity<Auction> joinAuction(@PathVariable int auctionId, @PathVariable String username){
+        Auction auction = iAuctionService.join(username, auctionId);
         if(auction==null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

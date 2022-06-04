@@ -36,6 +36,10 @@ public class Auction implements Comparable {
         return is_finished;
     }
 
+    public void setIs_finished(){
+        is_finished=1;
+    }
+
     public String getName() {
         return name;
     }
