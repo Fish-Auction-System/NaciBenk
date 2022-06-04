@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@EnableScheduling
+@EnableAsync
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/auction")
 public class AuctionController {
-
+    
+    int countdowntimer = 100;
+    boolean booler = false;
     // Private Service layer.
     private IAuctionService iAuctionService;
     // dependecy Injection of the system.
@@ -89,5 +93,38 @@ public class AuctionController {
         return new ResponseEntity<>(sale,HttpStatus.OK);
     }
 
+
+     @Async
+     @Scheduled(fixedRate = 1000)
+     public void scheduleFixedRateTaskAsync() throws InterruptedException {
+         if (booler) {
+             System.out.println("Fixed rate task async - " + System.currentTimeMillis() / 1000);
+             Thread.sleep(2000);
+             countdowntimer = countdowntimer - 1;
+         }
+
+     }
+
+     @GetMapping(value = "/stopTimer")
+     public void startSchedule() throws InterruptedException {
+         booler = false;
+         countdowntimer = 100;
+     }
+
+     @GetMapping(value = "/startTimer")
+     public void stopSchedule() throws InterruptedException {
+         booler = true;
+         scheduleFixedRateTaskAsync();
+     }
+
+     @GetMapping(value = "/getTimer")
+     public int getCountdowntimer() {
+         return countdowntimer;
+     }
+
+     @GetMapping(value = "/resetTimer")
+     public void resetCountdownTimer() {
+         countdowntimer = 100;
+     }
 
 }
