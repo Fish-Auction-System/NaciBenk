@@ -53,7 +53,7 @@ public class AuctionController {
         return new ResponseEntity<>(auction, HttpStatus.OK);
     }
 
-    @PostMapping("join/{auctionId}/{username}")
+    @PutMapping("join/{auctionId}/{username}")
     public ResponseEntity<Auction> joinAuction(@PathVariable int auctionId, @PathVariable String username){
         Auction auction = iAuctionService.join(username, auctionId);
         if(auction==null){
