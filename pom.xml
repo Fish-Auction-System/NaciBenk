@@ -43,6 +43,12 @@
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
         </dependency>
+		<dependency>
+			<groupId>org.awaitility</groupId>
+			<artifactId>awaitility</artifactId>
+			<version>3.1.2</version>
+			<scope>test</scope>
+		</dependency>
     </dependencies>
 
 	<build>
