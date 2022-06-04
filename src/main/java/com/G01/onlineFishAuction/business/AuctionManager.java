@@ -2,10 +2,7 @@ package com.G01.onlineFishAuction.business;
 
 import com.G01.onlineFishAuction.dataAccess.IAuctionRepository;
 import com.G01.onlineFishAuction.dataAccess.IFishRepository;
-import com.G01.onlineFishAuction.entities.Auction;
-import com.G01.onlineFishAuction.entities.Customer;
-import com.G01.onlineFishAuction.entities.Fish;
-import com.G01.onlineFishAuction.entities.SaleInfo;
+import com.G01.onlineFishAuction.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +23,9 @@ public class AuctionManager implements IAuctionService {
     private List<String> customers = new ArrayList<>();
     private int currentFish;
     @Autowired
-    private SaleInfo saleInfo = null;
+    private Bid currentBid;
+    @Autowired
+    private SaleInfo saleInfo;
 
 
 
@@ -78,6 +77,8 @@ public class AuctionManager implements IAuctionService {
                 currentAuction = auction;
                 fish= fishRepository.getAllFishForAuction(auction.getId());
                 currentFish = 0;
+                saleInfo=null;
+                currentBid=null;
                 return auction;
             }
         }
@@ -89,7 +90,7 @@ public class AuctionManager implements IAuctionService {
     public Auction join(String  username,int auctionId){
         if (currentAuction!=null){
             if(currentAuction.getId()==auctionId){
-                if (currentAuction.getQuota() < customers.size()){
+                if (currentAuction.getQuota() > customers.size()){
                     customers.add(username);
                     return currentAuction;
                 }
@@ -111,11 +112,16 @@ public class AuctionManager implements IAuctionService {
     public SaleInfo nextFish(){
         Fish tokenFish = null;
         if(currentFish<fish.size()){
+            saleInfo= new SaleInfo();
+            currentBid = new Bid();
             tokenFish = fish.remove(currentFish);
             currentFish++;
             saleInfo.setFish(tokenFish);
             saleInfo.setPrice(tokenFish.getPrice());
             saleInfo.setBuyer(null);
+            currentBid.setBid(tokenFish.getPrice());
+            currentBid.setFish(tokenFish.getId());
+            currentBid.setCustomer("");
             return saleInfo;
         }
         else{
@@ -134,12 +140,30 @@ public class AuctionManager implements IAuctionService {
     public void finishAuction(){
         fish.clear();
         saleInfo = null;
+        currentBid = null;
         currentFish = 1;
         auctionRepository.finishAuction(currentAuction);
         currentAuction = null;
         customers.clear();
 
 
+    }
+
+    @Override
+    public Bid makeBid(float amount, String customer){
+        if(saleInfo==null){
+            return null;
+        }else{
+            if(currentBid.getBid() > amount){
+                return currentBid;
+            }else{
+                currentBid.setCustomer(customer);
+                currentBid.setBid(amount);
+                saleInfo.setBuyer(customer);
+                saleInfo.setPrice(amount);
+                return currentBid;
+            }
+        }
     }
 
 

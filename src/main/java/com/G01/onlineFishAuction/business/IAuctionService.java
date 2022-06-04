@@ -1,9 +1,6 @@
 package com.G01.onlineFishAuction.business;
 
-import com.G01.onlineFishAuction.entities.Auction;
-import com.G01.onlineFishAuction.entities.Customer;
-import com.G01.onlineFishAuction.entities.Fish;
-import com.G01.onlineFishAuction.entities.SaleInfo;
+import com.G01.onlineFishAuction.entities.*;
 
 import java.util.List;
 
@@ -19,5 +16,6 @@ public interface IAuctionService {
     public SaleInfo nextFish();
     public SaleInfo getSaleInfo();
     public void finishAuction();
+    public Bid makeBid(float amount, String customer);
 
 }
