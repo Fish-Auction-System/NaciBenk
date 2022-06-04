@@ -37,11 +37,14 @@ public class HibernateAuctionRepository implements  IAuctionRepository{
 
     @Override
     @Transactional
-    public boolean isAuctionExists(String idName){
+    public boolean isAuctionExists(int idName){
         Iterator<Auction> newAuction=getAll().iterator();
-        ArrayList<String> idList=new ArrayList<>();
+        ArrayList<Integer> idList=new ArrayList<>();
         while (newAuction.hasNext()){
+
             idList.add(newAuction.next().getId());
+            System.out.println(idList.get(idList.size()-1));
+
         }
         return idList.contains(idName);
     }
