@@ -8,6 +8,10 @@ public class AuctionStatus {
     private SaleInfo closedSale;
     private SaleInfo currentSale;
     private SaleInfo nextSale;
+    private int pageCodeCst;
+    private int pageCodeCH;
+    private int pageCodeCM;
+
 
     public AuctionStatus(boolean isFirstSaleWait, boolean isAuctionFinished, boolean isStarted, boolean saleClosed, SaleInfo closedSale, SaleInfo currentSale, SaleInfo nextSale) {
         this.isFirstSaleWait = isFirstSaleWait;
@@ -17,6 +21,9 @@ public class AuctionStatus {
         this.closedSale = closedSale;
         this.currentSale = currentSale;
         this.nextSale = nextSale;
+        this.setPageCodeCH();
+        this.setPageCodeCM();
+        this.setPageCodeCst();
     }
 
     public AuctionStatus() {
@@ -80,5 +87,95 @@ public class AuctionStatus {
 
     public void setNextSale(SaleInfo nextSale) {
         this.nextSale = nextSale;
+    }
+
+    public int getPageCodeCst() {
+        return pageCodeCst;
+    }
+
+    public void setPageCodeCst() {
+        if(isAuctionFinished){
+            if(isStarted){
+                System.out.println("unexpected status auction cannot be finished while isStarted true");
+                return;
+            }
+            this.pageCodeCst = 6;
+        }else{
+            if(isStarted && !saleClosed && !isFirstSaleWait){
+                if(currentSale==null){
+                    System.out.println("invalid status cst current sale cannot be null under this conditions (started not finished not closed not wait)");
+                    return;
+                }else{
+                    this.pageCodeCst = 1;
+                }
+            }
+            else if(isStarted && isFirstSaleWait){
+                this.pageCodeCst=3;
+            }else if(isStarted &&   saleClosed){
+                this.pageCodeCst = 2;
+            }else{
+                System.out.println("invalid status for cst");
+                return;
+            }
+        }
+
+    }
+
+    public int getPageCodeCH() {
+        return pageCodeCH;
+    }
+
+    public void setPageCodeCH() {
+        if(isAuctionFinished){
+            if(isStarted){
+                System.out.println("unexpected status auction cannot be finished while isStarted true");
+                return;
+            }
+            this.pageCodeCH = 6;
+        }
+        if(isStarted && saleClosed && isFirstSaleWait){
+            if(isAuctionFinished){
+                System.out.println("unexpected status auction cannot be finished while isStarted true");
+                return;
+            }else if(nextSale==null){
+                System.out.println("unexpected status next sale cannot be null while auction is not finished");
+                return;
+            }else{
+                this.pageCodeCH = 4;
+            }
+        }else if(isStarted && !saleClosed && !isFirstSaleWait){
+            if(currentSale == null){
+                System.out.println("current sale cannot be null while auction is tarted not finished and sale not closed");
+            }
+            this.pageCodeCH = 1;
+        }
+
+    }
+
+    public int getPageCodeCM() {
+        return pageCodeCM;
+    }
+
+    public void setPageCodeCM() {
+        if(isAuctionFinished){
+            this.pageCodeCM = 6;
+        }else{
+            if(isStarted && !saleClosed && !isFirstSaleWait){
+                if(currentSale==null){
+                    System.out.println("invalid status cst current sale cannot be null under this conditions (started not finished not closed not wait)");
+                    return;
+                }else{
+                    this.pageCodeCM = 1;
+                }
+            }
+            else if(isStarted && isFirstSaleWait){
+                this.pageCodeCM=3;
+            }else if(isStarted &&   saleClosed){
+                this.pageCodeCM = 2;
+            }else{
+                System.out.println("invalid status for cst");
+                return;
+            }
+        }
     }
 }
