@@ -8,7 +8,7 @@ public interface IFishRepository extends IFishRepositoryForSale {
     public void recordFish(Fish fish);
     public void deleteFish(Fish fish);
     public List<Fish> getAll();
-    public Fish getFish(String id);
+
     public List<Fish> getAllFishForAuction(int id);
 
 }

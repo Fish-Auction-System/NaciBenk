@@ -1,6 +1,7 @@
 package com.G01.onlineFishAuction.restApi;
 
 
+import com.G01.onlineFishAuction.DTO.SaleFeedback;
 import com.G01.onlineFishAuction.business.ISaleService;
 import com.G01.onlineFishAuction.entities.Sale;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,11 @@ public class SaleController {
     }
 
     @GetMapping("/get/fisherman/{fisherman}")
-    public List<Sale> getSalesForFisherman(@PathVariable String fisherman){
+    public List<SaleFeedback> getSalesForFisherman(@PathVariable String fisherman){
         return saleService.getByFisherman(fisherman);
     }
+
+
 
 
 }

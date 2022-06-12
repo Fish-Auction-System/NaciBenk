@@ -1,5 +1,6 @@
 package com.G01.onlineFishAuction.dataAccess;
 
+import com.G01.onlineFishAuction.DTO.SaleFeedback;
 import com.G01.onlineFishAuction.entities.Fish;
 import com.G01.onlineFishAuction.entities.Fisherman;
 import com.G01.onlineFishAuction.entities.Sale;
@@ -63,26 +64,44 @@ public class HibernateSaleRepository implements ISaleRepository{
     }
 
     @Override
-    public List<Sale> getByCustomer(String customer) {
+    public List<SaleFeedback> getByCustomer(String customer) {
         Session session  = entityManager.unwrap(Session.class);
-        String hql = "from Sale where buyer=" + "'" +customer+"'";
+        String hql = "from Sale where buyer=" + "'" + customer + "'";
         List<Sale> sales = session.createQuery(hql,Sale.class).getResultList();
-        return sales;
+        List<SaleFeedback> saleFeedbacks = new ArrayList<>();
+        for(Sale sale : sales){
+            SaleFeedback saleFeedback = new SaleFeedback();
+            saleFeedback.setSale(sale);
+            Fish fish = fishRepositoryForSale.getFish(sale.getFish());
+            saleFeedback.setFish(fish);
+            saleFeedbacks.add(saleFeedback);
+        }
+
+        return saleFeedbacks;
     }
 
     @Override
-    public List<Sale> getByFisherman(String fisherman) {
+    public List<SaleFeedback> getByFisherman(String fisherman) {
         Session session  = entityManager.unwrap(Session.class);
         List<Fish> fish = fishRepositoryForSale.getAllFishForFisherman(fisherman);
         List<Sale> sales = new ArrayList<>();
         for(Fish token : fish){
             int id = token.getId();
-            String hql = "from Sale where fish=" + id;
+            String hql = "from Sale where fish=" +  id;
             List<Sale> sale = session.createQuery(hql,Sale.class).getResultList();
             sales.addAll(sale);
         }
 
-        return sales;
+        List<SaleFeedback> saleFeedbacks = new ArrayList<>();
+        for(Sale sale : sales){
+            SaleFeedback saleFeedback = new SaleFeedback();
+            saleFeedback.setSale(sale);
+            Fish fishToken = fishRepositoryForSale.getFish(sale.getFish());
+            saleFeedback.setFish(fishToken);
+            saleFeedbacks.add(saleFeedback);
+        }
+
+        return saleFeedbacks;
     }
 
     @Override

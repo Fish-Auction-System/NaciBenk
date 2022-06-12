@@ -1,5 +1,6 @@
 package com.G01.onlineFishAuction.business;
 
+import com.G01.onlineFishAuction.DTO.SaleFeedback;
 import com.G01.onlineFishAuction.dataAccess.ISaleRepository;
 import com.G01.onlineFishAuction.entities.Sale;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +50,13 @@ public class SaleManager implements ISaleService{
 
     @Override
     @Transactional
-    public List<Sale> getByCustomer(String customer) {
+    public List<SaleFeedback> getByCustomer(String customer) {
         return saleRepository.getByCustomer(customer);
     }
 
     @Override
     @Transactional
-    public List<Sale> getByFisherman(String fisherman) {
+    public List<SaleFeedback> getByFisherman(String fisherman) {
         return saleRepository.getByFisherman(fisherman);
     }
 

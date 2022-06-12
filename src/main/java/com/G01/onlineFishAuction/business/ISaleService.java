@@ -1,5 +1,6 @@
 package com.G01.onlineFishAuction.business;
 
+import com.G01.onlineFishAuction.DTO.SaleFeedback;
 import com.G01.onlineFishAuction.entities.Sale;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface ISaleService {
     Sale updateSale(Sale sale);
     List<Sale> getAll();
     Sale getById(int id);
-    List<Sale> getByCustomer(String customer);
-    List<Sale> getByFisherman(String fisherman);
+    List<SaleFeedback> getByCustomer(String customer);
+    List<SaleFeedback> getByFisherman(String fisherman);
     List<Sale> getByAuction(int auctionId);
 }

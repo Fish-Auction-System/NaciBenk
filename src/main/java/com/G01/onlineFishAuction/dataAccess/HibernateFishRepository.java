@@ -45,7 +45,7 @@ public class HibernateFishRepository implements IFishRepository{
 
 	@Override
 	@Transactional
-	public Fish getFish(String id) {
+	public Fish getFish(int id) {
 		Session session  = entityManager.unwrap(Session.class);
 		return session.get(Fish.class, id);
 	}
@@ -64,7 +64,7 @@ public class HibernateFishRepository implements IFishRepository{
 	@Transactional
 	public List<Fish> getAllFishForFisherman(String fisherman) {
 		Session session  = entityManager.unwrap(Session.class);
-		String hql = "from Fish where fishermanid="+ fisherman;
+		String hql = "from Fish where fishermanid="+ "'" + fisherman + "'";
 		List<Fish> fish = session.createQuery(hql,Fish.class).getResultList();
 		return fish;
 	}

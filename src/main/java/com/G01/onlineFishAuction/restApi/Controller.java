@@ -2,6 +2,7 @@ package com.G01.onlineFishAuction.restApi;
 
 import com.G01.onlineFishAuction.DTO.CooperativeMemberDTO;
 import com.G01.onlineFishAuction.DTO.LoginResponseJson;
+import com.G01.onlineFishAuction.DTO.SaleFeedback;
 import com.G01.onlineFishAuction.entities.*;
 import com.G01.onlineFishAuction.exceptions.CodeNotFoundException;
 import com.G01.onlineFishAuction.exceptions.UsernameAlreadyInUse;
@@ -179,7 +180,7 @@ public class Controller {
     }
 
     @GetMapping("get/sales/{customer}")
-    public List<Sale> getSales(@PathVariable String customer){
+    public List<SaleFeedback> getSales(@PathVariable String customer){
         return saleService.getByCustomer(customer);
     }
 
