@@ -1,21 +1,15 @@
 package com.G01.onlineFishAuction.restApi;
 
 import com.G01.onlineFishAuction.DTO.CooperativeMemberDTO;
+import com.G01.onlineFishAuction.DTO.LoginResponseJson;
 import com.G01.onlineFishAuction.entities.*;
 import com.G01.onlineFishAuction.exceptions.CodeNotFoundException;
-import com.G01.onlineFishAuction.exceptions.FishermanAuctionNotExists;
 import com.G01.onlineFishAuction.exceptions.UsernameAlreadyInUse;
 import com.G01.onlineFishAuction.exceptions.UsernameNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.G01.onlineFishAuction.business.*;
 
 import java.sql.SQLException;
@@ -33,16 +27,19 @@ public class Controller {
     private ICustomerService customerService;
     private IUserService userService;
     private ICooperativeMemberService cooperativeMemberService;
+    private ISaleService saleService;
 
     // Dependecy Injection of Some Objects.
     @Autowired
     public Controller(ICustomerService customerService, IUserService userService,
-                      ICooperativeMemberService cooperativeMemberService) {
+                      ICooperativeMemberService cooperativeMemberService,
+                      ISaleService saleService) {
         // Those object provides data Access to DB server.
         // !! Consider this a warning -> Do not change those if you are examining this code.
         this.customerService = customerService;
         this.userService = userService;
         this.cooperativeMemberService = cooperativeMemberService;
+        this.saleService = saleService;
     }
 
     @GetMapping("/customers")
@@ -174,6 +171,16 @@ public class Controller {
         catch (Exception err) {
             return new ResponseEntity<>("Not unique data! mail or sth in SYSTEM!", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PutMapping("/pay")
+    public void pay(){
+        return;
+    }
+
+    @GetMapping("get/sales/{customer}")
+    public List<Sale> getSales(@PathVariable String customer){
+        return saleService.getByCustomer(customer);
     }
 
 

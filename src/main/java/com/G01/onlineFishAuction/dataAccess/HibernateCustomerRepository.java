@@ -53,4 +53,13 @@ public class HibernateCustomerRepository implements ICustomerRepository{
 		session.delete(customerToDelete);
 	}
 
+	@Override
+	@Transactional
+	public boolean isCustomerExists(String customer){
+		Session session  = entityManager.unwrap(Session.class);
+		Customer customer1 = session.find(Customer.class, customer);
+		return (customer1!= null);
+	}
+
+
 }

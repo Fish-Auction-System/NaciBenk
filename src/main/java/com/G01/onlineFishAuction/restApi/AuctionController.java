@@ -1,10 +1,9 @@
 package com.G01.onlineFishAuction.restApi;
 
+import com.G01.onlineFishAuction.DTO.AuctionStatus;
+import com.G01.onlineFishAuction.DTO.SaleInfo;
 import com.G01.onlineFishAuction.business.IAuctionService;
-import com.G01.onlineFishAuction.entities.Auction;
-import com.G01.onlineFishAuction.entities.Bid;
-import com.G01.onlineFishAuction.entities.Customer;
-import com.G01.onlineFishAuction.entities.SaleInfo;
+import com.G01.onlineFishAuction.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -92,6 +91,17 @@ public class AuctionController {
         return new ResponseEntity<>(sale,HttpStatus.OK);
     }
 
+    @GetMapping("get/next/sale")
+    public ResponseEntity<SaleInfo> getNextSaleInfo(){
+        SaleInfo saleInfo;
+        if((saleInfo = iAuctionService.getNextSale()) == null){
+            return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+
+        }
+        return new ResponseEntity<>(saleInfo,HttpStatus.OK);
+    }
+
+
     @PutMapping("make/bid/{customer}/{bid}")
     public ResponseEntity<Float> makeBid(@PathVariable String customer, @PathVariable float bid){
         Bid newBid = iAuctionService.makeBid(bid,customer);
@@ -104,7 +114,35 @@ public class AuctionController {
             return new ResponseEntity<>(bid,HttpStatus.OK);
         }
     }
-    
+
+    @GetMapping("get/fish/{auctionId}")
+    public ResponseEntity<List<Fish>> getFish(@PathVariable int auctionId){
+        return new ResponseEntity<>(iAuctionService.getAllFish(auctionId),HttpStatus.OK);
+
+    }
+
+    @GetMapping("get/current/info")
+    public String getInfo(){
+        return iAuctionService.toString();
+    }
+
+    @PutMapping("close/sale")
+    public ResponseEntity<SaleInfo> closeSale(){
+        SaleInfo saleInfo = iAuctionService.closeSale();
+        if(saleInfo==null){
+            return new ResponseEntity<>(null,HttpStatus.EXPECTATION_FAILED);
+        }
+        return new ResponseEntity<>(saleInfo,HttpStatus.OK);
+    }
+
+    @GetMapping("get/current/status")
+    public AuctionStatus getStatus(){
+        return  iAuctionService.getStatus();
+    }
+
+
+
+
 
 
 

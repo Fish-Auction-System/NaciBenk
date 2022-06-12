@@ -4,7 +4,7 @@ import com.G01.onlineFishAuction.entities.Fish;
 
 import java.util.List;
 
-public interface IFishRepository {
+public interface IFishRepository extends IFishRepositoryForSale {
     public void recordFish(Fish fish);
     public void deleteFish(Fish fish);
     public List<Fish> getAll();

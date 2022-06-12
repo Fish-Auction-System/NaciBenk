@@ -1,6 +1,7 @@
-package com.G01.onlineFishAuction.entities;
+package com.G01.onlineFishAuction.DTO;
 
 
+import com.G01.onlineFishAuction.entities.Fish;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,6 +15,12 @@ public class SaleInfo {
         this.fish = fish;
         this.price = price;
         this.buyer = buyer;
+    }
+    public SaleInfo(SaleInfo other) {
+
+        this.fish = other.getFish();
+        this.price = other.getPrice();
+        this.buyer = other.getBuyer();
     }
 
     public SaleInfo() {
@@ -42,5 +49,14 @@ public class SaleInfo {
 
     public void setBuyer(String buyer) {
         this.buyer = buyer;
+    }
+
+    @Override
+    public String toString() {
+        return "SaleInfo{" +
+                "fish=" + fish +
+                ", price=" + price +
+                ", buyer='" + buyer + '\'' +
+                '}';
     }
 }

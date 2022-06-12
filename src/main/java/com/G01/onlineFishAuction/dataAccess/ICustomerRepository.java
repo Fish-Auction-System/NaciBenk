@@ -9,5 +9,6 @@ public interface ICustomerRepository {
 	Customer getCustomer(String username);
 	void recordCustomer(Customer customer);
 	void deleteCustomer(Customer customer);
+	public boolean isCustomerExists(String customer);
 
 }

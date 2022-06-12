@@ -77,4 +77,15 @@ public class Auction implements Comparable {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "Auction{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                ", quota=" + quota +
+                ", is_finished=" + is_finished +
+                '}';
+    }
 }

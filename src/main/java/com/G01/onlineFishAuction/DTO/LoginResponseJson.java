@@ -1,4 +1,4 @@
-package com.G01.onlineFishAuction.entities;
+package com.G01.onlineFishAuction.DTO;
 
 
 

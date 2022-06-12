@@ -60,6 +60,15 @@ public class HibernateFishRepository implements IFishRepository{
 		return fish;
 	}
 
+	@Override
+	@Transactional
+	public List<Fish> getAllFishForFisherman(String fisherman) {
+		Session session  = entityManager.unwrap(Session.class);
+		String hql = "from Fish where fishermanid="+ fisherman;
+		List<Fish> fish = session.createQuery(hql,Fish.class).getResultList();
+		return fish;
+	}
+
 
 
 

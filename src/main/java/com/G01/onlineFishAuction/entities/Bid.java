@@ -43,4 +43,13 @@ public class Bid {
     public void setFish(int fish) {
         this.fish = fish;
     }
+
+    @Override
+    public String toString() {
+        return "Bid{" +
+                "customer='" + customer + '\'' +
+                ", bid=" + bid +
+                ", fish=" + fish +
+                '}';
+    }
 }

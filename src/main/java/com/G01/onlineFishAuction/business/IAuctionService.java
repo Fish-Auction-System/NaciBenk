@@ -1,5 +1,7 @@
 package com.G01.onlineFishAuction.business;
 
+import com.G01.onlineFishAuction.DTO.AuctionStatus;
+import com.G01.onlineFishAuction.DTO.SaleInfo;
 import com.G01.onlineFishAuction.entities.*;
 
 import java.util.List;
@@ -17,6 +19,8 @@ public interface IAuctionService {
     public SaleInfo getSaleInfo();
     public void finishAuction();
     public Bid makeBid(float amount, String customer);
-    public void closeSale();
+    public SaleInfo closeSale();
+    public SaleInfo getNextSale();
+    public AuctionStatus getStatus();
 
 }
