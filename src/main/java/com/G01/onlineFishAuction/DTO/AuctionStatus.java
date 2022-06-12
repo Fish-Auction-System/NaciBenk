@@ -132,6 +132,7 @@ public class AuctionStatus {
                 return;
             }
             this.pageCodeCH = 6;
+            return;
         }
         if(isStarted && saleClosed && isFirstSaleWait){
             if(isAuctionFinished){
@@ -149,6 +150,13 @@ public class AuctionStatus {
             }
             this.pageCodeCH = 1;
         }
+        // değiştirildi
+        else if(isStarted && saleClosed){
+            this.pageCodeCH = 4;
+        }else{
+            System.out.println("invalid status for ch");
+        }
+        // değiştirildi
 
     }
 

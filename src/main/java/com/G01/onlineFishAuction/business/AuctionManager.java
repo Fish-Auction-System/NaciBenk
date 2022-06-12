@@ -193,6 +193,9 @@ public class AuctionManager implements IAuctionService {
         round = 0;
         saleInfo = null;
         currentBid = null;
+        //değiştirildi
+        saleInfoBackup = null;
+        //değiştirildi
         currentFish = 0;
         auctionRepository.finishAuction(currentAuction);
         isFinished = true;
@@ -275,7 +278,20 @@ public class AuctionManager implements IAuctionService {
             return null;
         }
         int nextIndex = 0;
-        Fish tokenFish = fish.get(nextIndex);
+        //değiştirildi
+        Fish tokenFish = null;
+        if(!fish.isEmpty()){
+            round =1;
+        }else{
+            round = 2;
+        }
+
+        if(round==1){
+            tokenFish = fish.get(nextIndex);
+        }else if(round==2){
+            tokenFish = fishForSecondRound.get(nextIndex);
+        }
+        //değiştirildi
         SaleInfo saleInfo = new SaleInfo();
         saleInfo.setFish(tokenFish);
         saleInfo.setPrice(tokenFish.getPrice());
