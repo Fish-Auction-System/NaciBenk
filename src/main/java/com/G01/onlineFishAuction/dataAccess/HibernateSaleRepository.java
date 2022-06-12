@@ -65,7 +65,7 @@ public class HibernateSaleRepository implements ISaleRepository{
     @Override
     public List<Sale> getByCustomer(String customer) {
         Session session  = entityManager.unwrap(Session.class);
-        String hql = "from Sale where buyer=" + customer;
+        String hql = "from Sale where buyer=" + "'" +customer+"'";
         List<Sale> sales = session.createQuery(hql,Sale.class).getResultList();
         return sales;
     }
